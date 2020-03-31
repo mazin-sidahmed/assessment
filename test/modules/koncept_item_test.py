@@ -1,9 +1,9 @@
 import os, unittest
-from src.modules.item import Item
+from src.modules.koncept_item import KonceptItem
 from test.definitions import root
 
 
-class ItemTest(unittest.TestCase):
+class KoceptItemTest(unittest.TestCase):
     
     def setUp(self):
         self.dbfile = os.path.join(root, 'db/item.csv')
@@ -13,7 +13,7 @@ class ItemTest(unittest.TestCase):
             os.remove(self.dbfile)
 
     def test_save_should_write_db(self):
-        item = Item(self.dbfile)
+        item = KonceptItem(self.dbfile)
         item.save(1, 'spoons', 1000)
 
         with open(self.dbfile, 'r') as db:
@@ -21,7 +21,7 @@ class ItemTest(unittest.TestCase):
             self.assertEqual(content, ['1, spoons, 1000\n'])
 
     def test_delete_should_delete_item_from_db(self):
-        item = Item(self.dbfile)
+        item = KonceptItem(self.dbfile)
         item.save(1, 'spoons', 1000)
         item.delete('spoons')
 
@@ -30,7 +30,7 @@ class ItemTest(unittest.TestCase):
             self.assertEqual(content, [])
 
     def test_delete_should_delete_the_correct_item_from_db(self):
-        item = Item(self.dbfile)
+        item = KonceptItem(self.dbfile)
         item.save(1, 'spoons', 1000)
         item.save(2, 'forks', 1000)
 
@@ -45,13 +45,13 @@ class ItemTest(unittest.TestCase):
             self.assertEqual(content, ['2, forks, 1000\n'])
     
     def test_search_shoud_return_the_item(self):
-        item = Item(self.dbfile)
+        item = KonceptItem(self.dbfile)
         item.save(1, 'spoons', 1000)
 
         self.assertEqual(['1, spoons, 1000\n'], item.search('spoons'))
 
     def test_search_shoud_return_the_correct_item(self):
-        item = Item(self.dbfile)
+        item = KonceptItem(self.dbfile)
         item.save(1, 'spoons', 1000)
         item.save(2, 'forks', 1000)
 

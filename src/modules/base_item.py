@@ -1,13 +1,12 @@
 from src.modules.database import Database
 
-
-class Item(Database):
-
+class BaseItem(Database):
     def __init__(self, filename):
         super().__init__(filename)
     
     def save(self, id, name, price):
-        with open(self.dbfile, 'a') as instance: 
+
+        with open(self.dbfile, 'a+') as instance: 
             instance.write("%s, %s, %s\n"%(id, name, price))
 
     def search(self, name):
@@ -19,12 +18,12 @@ class Item(Database):
                     results.append(line)
         return results
 
-    def delete(self, name):
+    def delete(self, id):
         content = []
         with open(self.dbfile, 'r') as instance:
             lines = instance.readlines()
             for line in lines:
-                if name not in line.strip("\n"):
+                if id not in line.strip("\n"):
                     content.append(line)
 
         with open(self.dbfile, 'w') as instance:

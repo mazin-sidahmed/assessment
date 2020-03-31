@@ -1,22 +1,23 @@
 import os
 from flask import Blueprint, request, jsonify
-from src.modules.koncept_item import KonceptItem
+from src.modules.new_company_item import NewCompanyItem
 from src.definitions import root
 
 
-koncept = Blueprint('koncept', __name__)
-dbfile = os.path.join(root, 'db/koncept.csv')
+new_company = Blueprint('new_company', __name__)
+dbfile = os.path.join(root, 'db/new_company.csv')
 
 
-@koncept.route('/koncept/item', methods=['POST', 'GET', 'DELETE'])
+@new_company.route('/new_company/item', methods=['POST', 'GET', 'DELETE'])
 def handle():
-    item = KonceptItem(dbfile)
+    item = NewCompanyItem(dbfile)
     if request.method == 'POST':
         data = request.get_json(force = True)
         id = data['id']
         name = data['name']
         price = data['price']
-        item.save(id, name, price)
+        brand = data['brand']
+        item.save(id, name, price, brand)
         return ('OK', 201)
     elif request.method == 'GET':
         name = request.args.get('name')
