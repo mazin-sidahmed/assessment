@@ -1,15 +1,29 @@
-from src.modules.base_item import BaseItem
+from src.database import db
 
 
-class NewCompanyItem(BaseItem):
+class NewCompanyItem(db.Model):
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    __tablename__ = 'new_company'
 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    price = db.Column(db.Float())
+    brand = db.Colum(db.String())
 
-    def save(self, id, name, price, brand):
+    def __init__(self, name, price, brand):
+        self.name = name
+        self.price = price
+        self.brand = brand
 
-        with open(self.dbfile, 'a+') as instance: 
-            instance.write("%s, %s, %s, %s\n"%(id, name, price, brand))
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
+    
+    def serialize(self):
+        return {
+            'id': self.id, 
+            'name': self.name,
+            'price': self.price,
+            'brand': self.brand
+            }
     
     

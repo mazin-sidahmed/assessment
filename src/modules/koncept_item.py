@@ -1,9 +1,24 @@
-from src.modules.base_item import BaseItem
+from src.database import db
 
 
-class KonceptItem(BaseItem):
+class KonceptItem(db.Model):
 
-    def __init__(self, filename):
-        super().__init__(filename)
+    __tablename__ = 'koncept'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    price = db.Column(db.Float())
+
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+    def __repr__(self):
+        return '<id {}>'.format(self.id)
     
-    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price
+            }

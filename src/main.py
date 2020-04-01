@@ -1,6 +1,7 @@
 import sys, os
 from flask import Flask
 
+
 root = os.path.normpath(os.getcwd())
 
 if root not in sys.path:
