@@ -6,7 +6,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'this-really-needs-to-be-changed'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/inventory'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost/inventory'
 
 
 class ProductionConfig(Config):

@@ -1,4 +1,4 @@
-from src.database import db
+from src.extentions import db
 
 
 class KonceptItem(db.Model):

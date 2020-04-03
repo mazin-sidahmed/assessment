@@ -1,4 +1,4 @@
-from src.database import db
+from src.extentions import db
 
 
 class NewCompanyItem(db.Model):
@@ -8,7 +8,7 @@ class NewCompanyItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
     price = db.Column(db.Float())
-    brand = db.Colum(db.String())
+    brand = db.Column(db.String())
 
     def __init__(self, name, price, brand):
         self.name = name

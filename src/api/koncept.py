@@ -2,27 +2,32 @@ import os
 from flask import Blueprint, request, jsonify
 from src.modules.koncept_item import KonceptItem
 from src.definitions import root
+from src.db import utils
 
 
 koncept = Blueprint('koncept', __name__)
-dbfile = os.path.join(root, 'db/koncept.csv')
 
 
-@koncept.route('/koncept/item', methods=['POST', 'GET', 'DELETE'])
-def handle():
-    item = KonceptItem(dbfile)
-    if request.method == 'POST':
-        data = request.get_json(force = True)
-        id = data['id']
-        name = data['name']
-        price = data['price']
-        item.save(id, name, price)
-        return ('OK', 201)
-    elif request.method == 'GET':
-        name = request.args.get('name')
-        return (jsonify(item.search(name)), 200)
-    elif request.method == 'DELETE':
-        data = request.get_json(force = True)
-        id = data['id']
-        item.delete(id)
-        return ('OK', 204)
+@koncept.route('/koncept/item', methods=['POST'])
+def create():
+    data = request.get_json(force = True)
+    name = data['name']
+    price = data['price']     
+    item = KonceptItem(name = name, price = price)
+    utils.save(item)
+    return ('OK', 201)
+
+
+@koncept.route('/koncept/item', methods=['GET'])
+def search(): 
+    name = request.args.get('name')
+    items = utils.search(KonceptItem, name)
+    return jsonify([e.serialize() for e in items])
+
+
+@koncept.route('/koncept/item', methods=['DELETE'])
+def delete():
+    data = request.get_json(force = True)
+    name = data['name']
+    utils.delete(KonceptItem, name)
+    return ('OK', 204)
